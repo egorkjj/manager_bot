@@ -3,13 +3,14 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from tg_bot.config import load_config
-from tg_bot.handlers import register_handlers
+from tg_bot.handlers import register_group_handlers, register_admin_order_handlers
 storage = MemoryStorage()
 logger = logging.getLogger(__name__)
 
 
 def register_all_handlers(dp):
-    register_handlers(dp)
+    register_group_handlers(dp)
+    register_admin_order_handlers(dp)
 
 async def main() -> None:
     logging.basicConfig(
