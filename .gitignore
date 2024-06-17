@@ -1,3 +1,5 @@
 .env
 db.sqlite3
 venv
+tg_bot/images
+tg_bot/excel

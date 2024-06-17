@@ -3,7 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from tg_bot.config import load_config
-from tg_bot.handlers import register_group_handlers, register_admin_order_handlers
+from tg_bot.handlers import register_group_handlers, register_admin_order_handlers, register_excel, registrer_reclamation
 storage = MemoryStorage()
 logger = logging.getLogger(__name__)
 
@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 def register_all_handlers(dp):
     register_group_handlers(dp)
     register_admin_order_handlers(dp)
+    registrer_reclamation(dp)
+    register_excel(dp)
 
 async def main() -> None:
     logging.basicConfig(
@@ -23,12 +25,18 @@ async def main() -> None:
     dp = Dispatcher(bot, storage=storage) 
     bot['config'] = config
     register_all_handlers(dp)
-    try:
-        await dp.start_polling()
-    finally:
-        await dp.storage.close()
-        await dp.storage.wait_closed()
-        await bot.session.close()
+    while True:
+        try:
+            await dp.start_polling()
+        except Exception as e:
+            if e is asyncio.exceptions.TimeoutError:
+                print("TIMEOUT ERROR ASYNCIO python3")
+                pass
+            else:
+                print(f"THERE IS AN EXCEPTION: {e}")
+                await dp.storage.close()
+                await dp.storage.wait_closed()
+                await bot.session.close()
 
 
 if __name__ == '__main__':
