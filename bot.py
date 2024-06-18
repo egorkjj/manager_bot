@@ -29,14 +29,7 @@ async def main() -> None:
         try:
             await dp.start_polling()
         except Exception as e:
-            if e is asyncio.exceptions.TimeoutError:
-                print("TIMEOUT ERROR ASYNCIO python3")
-                pass
-            else:
-                print(f"THERE IS AN EXCEPTION: {e}")
-                await dp.storage.close()
-                await dp.storage.wait_closed()
-                await bot.session.close()
+            pass
 
 
 if __name__ == '__main__':
