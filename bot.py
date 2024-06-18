@@ -29,6 +29,7 @@ async def main() -> None:
         try:
             await dp.start_polling()
         except Exception as e:
+            print(e)
             pass
 
 
